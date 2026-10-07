@@ -1,0 +1,10 @@
+1. b. HAVING
+2. b.customers LEFT JOIN orders
+3. b. 7
+4. b.[2, 5, 8]
+5. b. 4 rows
+6. b. series
+7. a sns.histplot
+8. b. there are no loops a task can never lead back to itself
+9. b. in the metadata database
+10.b .the task_id(or list of task_ids) of path to follow

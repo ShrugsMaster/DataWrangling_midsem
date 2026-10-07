@@ -1,0 +1,68 @@
+##B1
+SELECT c.city, SUM(o.amount) AS total_order_amount          
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.city
+HAVING SUM(o.amount) > 1000
+ORDER BY total_order_amount DESC;
+
+output -
+Delhi with total amount as 3650
+Mumbai with total amount as 3650
+
+
+##########B2
+i)
+import numpy as np              
+a = np.array([[10, 20, 30], [40, 50, 60]])
+mean_columns = np.mean(a, axis=0)
+print(mean_columns)
+
+ii)
+The output of a[a > 25] will be:
+array([30, 40, 50, 60])
+
+################b3
+i) 1, indicating that there is one missing value in the units column of the sales dataframe.
+ii)(5, 6), indicating that after dropping the rows with missing values, there are 5 rows and 6 columns remaining in the sales dataframe.
+iii)sales['units'].fillna(sales['units'].median(), inplace=True)   
+
+############b4
+import matplotlib.pyplot as plt
+import pandas as pd
+
+region_units = pd.DataFrame({
+    'region': ['North', 'South', 'East'],
+    'units': [15, 9, 10]
+})
+
+plt.bar(region_units['region'], region_units['units'])
+plt.title('Units Sold by Region')
+plt.xlabel('Region')
+plt.ylabel('Units Sold')
+plt.show()
+
+###b5
+mistake was in connecting the tasks: extract() returns the list,
+so you need to store it in a variable and pass that variable to total(numbers) instead of writing extract >> total().
+ Also, task.python should be @task, and the DAG needs to be called at the end with report_dag()
+ corrected one -
+ 
+from airflow.sdk import dag, task
+@dag(dag_id="daily report", schedule=None)
+def report_dag():
+
+    @task
+    def extract():
+        return [1, 2, 3]
+
+    @task
+    def total(numbers):
+        print(sum(numbers))
+
+    numbers = extract()
+    total(numbers)
+
+report_dag()
+
+

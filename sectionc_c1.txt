@@ -1,0 +1,29 @@
+the query-
+WITH cust_total AS (
+SELECT c.name, SUM(
+CASE
+WHEN o.status <> 'cancelled' OR o.status IS NULL
+THEN o.amount
+ELSE 0
+END) AS total
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.name
+),
+
+avg_total AS (
+SELECT AVG(total) AS average
+FROM cust_total
+)
+
+SELECT c.name, c.total
+FROM cust_total c
+JOIN avg_total a
+ON c.total > a.average
+ORDER BY c.total DESC;
+ 
+
+** the output will be -
+ average is 1083.3
+ so people in order will be  rahul vikram priya

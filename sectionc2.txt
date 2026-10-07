@@ -1,0 +1,30 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sales['region'] = sales['region'].str.strip().str.title()
+sales['units'] = sales['units'].fillna(sales['units'].median())
+sales['revenue'] = sales['units'] * sales['price']
+sales['order date'] = pd.to_datetime(sales['order date'])
+sales['month'] = sales['order date'].dt.month_name()
+
+region_revenue = sales.groupby('region')['revenue'].sum().sort_values(ascending=False)
+print(region_revenue)
+
+pivot = pd.pivot_table(
+    sales,
+    index='region',
+    columns='product',
+    values='revenue',
+    aggfunc='sum',
+    fill_value=0
+)
+
+print(pivot)
+
+sns.barplot(x=region_revenue.index, y=region_revenue.values)
+plt.xlabel('Region')
+plt.ylabel('Total Revenue')
+plt.title('Revenue by Region')
+plt.show()
